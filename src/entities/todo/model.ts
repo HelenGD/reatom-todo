@@ -4,16 +4,6 @@ import { fetchTodos, saveTodos } from './api';
 
 export const todosAtom = atom<Todo[]>([], 'todos');
 
-export const completedTodosAtom = atom(
-  (ctx) => ctx.spy(todosAtom).filter((todo) => todo.isCompleted),
-  'completedTodos'
-);
-
-export const incompletedTodosAtom = atom(
-  (ctx) => ctx.spy(todosAtom).filter((todo) => !todo.isCompleted),
-  'incompletedTodos'
-);
-
 export const loadTodosAction = action((ctx) => {
   fetchTodos().then((todos) => {
     todosAtom(ctx, todos);

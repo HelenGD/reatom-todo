@@ -1,17 +1,13 @@
 import { useAtom, useAction } from '@reatom/npm-react';
 import './App.css';
-import {
-  loadTodosAction,
-  addTodoAction,
-  completedTodosAtom,
-  incompletedTodosAtom,
-} from './entities/todo/model';
+import { loadTodosAction, addTodoAction } from './entities/todo/model';
 import { useEffect } from 'react';
 import { Todo } from './entities/todo/todo';
+import { FilterTodos } from './entities/filter-todos/filter-todos';
+import { filteredTodosAtom } from './entities/filter-todos/model';
 
 function App() {
-  const [completedTodos] = useAtom(completedTodosAtom);
-  const [incompletedTodos] = useAtom(incompletedTodosAtom);
+  const [filteredTodosTodos] = useAtom(filteredTodosAtom);
   const loadTodos = useAction(loadTodosAction);
   const addTodo = useAction(addTodoAction);
 
@@ -24,12 +20,10 @@ function App() {
       <button type="button" onClick={addTodo}>
         ➕ add todo
       </button>
+      <hr />
+      <FilterTodos />
       <ul>
-        {incompletedTodos.map((todo) => (
-          <Todo key={todo.id} todo={todo} />
-        ))}
-
-        {completedTodos.map((todo) => (
+        {filteredTodosTodos.map((todo) => (
           <Todo key={todo.id} todo={todo} />
         ))}
       </ul>
