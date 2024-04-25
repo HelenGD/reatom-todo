@@ -15,7 +15,7 @@ export const saveTodosAction = action((ctx) => {
   return saveTodos(todos);
 });
 
-export const addTodoAction = action((ctx) => {
+export const addTodoAction = action(async (ctx) => {
   const text = prompt('Enter todo');
 
   if (!text) {
@@ -31,10 +31,11 @@ export const addTodoAction = action((ctx) => {
   const currentTodos = ctx.get(todosAtom);
   const newTodos = [newTodo, ...currentTodos];
   todosAtom(ctx, newTodos);
-  saveTodosAction(ctx);
+
+  await saveTodosAction(ctx);
 });
 
-export const toggleTodoAction = action((ctx, targetTodo: Todo) => {
+export const toggleTodoAction = action(async (ctx, targetTodo: Todo) => {
   const todos = ctx.get(todosAtom);
 
   const newTodos = todos.map((todo) => {
@@ -49,10 +50,11 @@ export const toggleTodoAction = action((ctx, targetTodo: Todo) => {
   });
 
   todosAtom(ctx, newTodos);
-  saveTodosAction(ctx);
+
+  await saveTodosAction(ctx);
 });
 
-export const editTodoAction = action((ctx, targetTodo: Todo) => {
+export const editTodoAction = action(async (ctx, targetTodo: Todo) => {
   const newText = prompt('Enter todo', targetTodo.text);
 
   if (!newText) {
@@ -73,10 +75,11 @@ export const editTodoAction = action((ctx, targetTodo: Todo) => {
   });
 
   todosAtom(ctx, newTodos);
-  saveTodosAction(ctx);
+
+  await saveTodosAction(ctx);
 });
 
-export const removeTodoAction = action((ctx, targetTodo: Todo) => {
+export const removeTodoAction = action(async (ctx, targetTodo: Todo) => {
   if (!confirm('Are you sure?')) {
     return;
   }
@@ -88,5 +91,6 @@ export const removeTodoAction = action((ctx, targetTodo: Todo) => {
   });
 
   todosAtom(ctx, newTodos);
-  saveTodosAction(ctx);
+
+  await saveTodosAction(ctx);
 });
